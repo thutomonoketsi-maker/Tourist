@@ -1,0 +1,360 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Inter", Arial, sans-serif;
+            background: #f7f4ef;
+            color: #1f3d3a;
+        }
+        a { text-decoration: none; }
+
+        .navbar {
+            height: 70px;
+            background: #1f3d3a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+        .brand {
+            color: white;
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .brand span { color: #d69b5b; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+        .nav-links a {
+            color: #dce5e3;
+            font-size: 12px;
+            font-weight: 500;
+            transition: 0.2s ease;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links .active { color: #d69b5b; font-weight: 700; }
+        .logout { color: #d69b5b !important; }
+
+        .main {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 42px 6% 55px;
+        }
+
+        .page-header { margin-bottom: 27px; }
+        .eyebrow {
+            color: #c7854c;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+            margin-bottom: 8px;
+        }
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 31px;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+        .page-header p {
+            margin: 0;
+            color: #727d7a;
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 27px;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa5a2;
+            font-size: 13px;
+        }
+        .search-box input {
+            width: 100%;
+            height: 46px;
+            padding: 0 16px 0 40px;
+            border: 1px solid #dce2df;
+            border-radius: 10px;
+            background: white;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            color: #263e3b;
+        }
+        .search-box input:focus {
+            border-color: #d69b5b;
+            box-shadow: 0 0 0 3px rgba(214,155,91,0.10);
+        }
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pill {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            background: white;
+            border: 1px solid #dce2df;
+            color: #687572;
+            cursor: pointer;
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+        .pill:hover {
+            border-color: #d69b5b;
+            color: #1f3d3a;
+        }
+        .pill.active {
+            background: #1f3d3a;
+            color: white;
+            border-color: #1f3d3a;
+        }
+
+        .place-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        .place-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            text-decoration: none;
+            color: #1f3d3a;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 7px 22px rgba(31,61,58,0.07);
+            transition: 0.22s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .place-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(31,61,58,0.12);
+        }
+        .place-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .place-body {
+            padding: 18px 20px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .place-category {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            color: #c7854c;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .place-card h3 {
+            margin: 0 0 7px;
+            font-size: 16px;
+            letter-spacing: -0.3px;
+        }
+        .place-card .desc {
+            margin: 0 0 13px;
+            color: #7c8583;
+            font-size: 11px;
+            line-height: 1.6;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .place-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 13px;
+            border-top: 1px solid #edf0ee;
+        }
+        .place-location {
+            color: #9aa3a1;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .place-location i { color: #c7854c; }
+        .place-price {
+            color: #1f3d3a;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .place-price.free { color: #47755f; }
+
+        .empty-state {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 30px;
+            text-align: center;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 7px 24px rgba(31,61,58,0.06);
+        }
+        .empty-icon {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #f7eee4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c7854c;
+            font-size: 25px;
+        }
+        .empty-state h2 {
+            margin: 0 0 9px;
+            font-size: 21px;
+        }
+        .empty-state p {
+            max-width: 420px;
+            margin: 0 auto;
+            color: #7b8582;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #687572;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 25px;
+            transition: 0.2s ease;
+        }
+        .back-link:hover { color: #1f3d3a; }
+
+        @media (max-width: 900px) {
+            .place-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 750px) {
+            .navbar { padding: 0 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { display: none; }
+            .nav-links a.active { display: block; }
+            .main { padding: 32px 5% 45px; }
+            .place-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">Explore <span>Kimberley</span></a>
+        <div class="nav-links">
+            <a href="/tourist/">Dashboard</a>
+            <a href="/explore/" class="active">Explore</a>
+            <a href="/guides/">Guides</a>
+            <a href="{% url 'my_trips' %}">My Trips</a>
+            <a href="/bookings/my-bookings/">Bookings</a>
+            <a href="/accounts/login/" class="logout">Logout</a>
+        </div>
+    </nav>
+    <main class="main">
+        <div class="page-header">
+            <div class="eyebrow">DISCOVER KIMBERLEY</div>
+            <h1>Explore Places &amp; Experiences</h1>
+            <p>Browse attractions, activities, places to stay and local restaurants across Kimberley.</p>
+        </div>
+
+        <form method="GET" class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="search" value="{{ search }}" placeholder="Search places by name...">
+            </div>
+            <div class="filter-pills">
+                <a href="{% url 'explore' %}" class="pill {% if not selected_category %}active{% endif %}">All</a>
+                <a href="{% url 'explore' %}?category=attraction" class="pill {% if selected_category == 'attraction' %}active{% endif %}">Attractions</a>
+                <a href="{% url 'explore' %}?category=activity" class="pill {% if selected_category == 'activity' %}active{% endif %}">Activities</a>
+                <a href="{% url 'explore' %}?category=accommodation" class="pill {% if selected_category == 'accommodation' %}active{% endif %}">Stays</a>
+                <a href="{% url 'explore' %}?category=restaurant" class="pill {% if selected_category == 'restaurant' %}active{% endif %}">Food</a>
+            </div>
+            <button type="submit" style="display:none;">Search</button>
+        </form>
+
+        {% if places %}
+            <div class="place-grid">
+                {% for place in places %}
+                    <a href="{% url 'place_detail' place.id %}" class="place-card">
+                        {% if place.image_url %}
+                            <img src="{{ place.image_url }}" alt="{{ place.name }}" class="place-image">
+                        {% elif place.image %}
+                            <img src="{{ place.image.url }}" alt="{{ place.name }}" class="place-image">
+                        {% else %}
+                            <img src="{% static 'images/attractions.jpg' %}" alt="{{ place.name }}" class="place-image">
+                        {% endif %}
+                        <div class="place-body">
+                            <span class="place-category">{{ place.get_category_display }}</span>
+                            <h3>{{ place.name }}</h3>
+                            <p class="desc">{{ place.description }}</p>
+                            <div class="place-footer">
+                                <span class="place-location">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    {{ place.location|truncatechars:20 }}
+                                </span>
+                                {% if place.price %}
+                                    <span class="place-price">R{{ place.price }}</span>
+                                {% else %}
+                                    <span class="place-price free">Free</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h2>No places found</h2>
+                <p>Try adjusting your search or filters to find places and experiences in Kimberley.</p>
+            </div>
+        {% endif %}
+
+        <a href="/tourist/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+    </main>
+</body>
+</html>

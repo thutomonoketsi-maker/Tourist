@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ guide.user.get_full_name }} | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: "Inter", Arial, sans-serif; background: #f7f4ef; color: #1f3d3a; }
+        a { text-decoration: none; }
+
+        .navbar { height: 70px; background: #1f3d3a; display: flex; align-items: center; justify-content: space-between; padding: 0 6%; }
+        .brand { color: white; font-size: 21px; font-weight: 700; letter-spacing: -0.5px; }
+        .brand span { color: #d69b5b; }
+        .nav-links { display: flex; align-items: center; gap: 27px; }
+        .nav-links a { color: #dce5e3; font-size: 12px; font-weight: 500; transition: 0.2s ease; }
+        .nav-links a:hover { color: white; }
+        .nav-links .active { color: #d69b5b; font-weight: 700; }
+        .logout { color: #d69b5b !important; }
+
+        .main { max-width: 920px; margin: 0 auto; padding: 36px 6% 55px; }
+        .back-link { display: inline-flex; align-items: center; gap: 7px; color: #687572; font-size: 11px; font-weight: 600; margin-bottom: 22px; transition: 0.2s ease; }
+        .back-link:hover { color: #1f3d3a; }
+
+        .detail-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 20px; align-items: stretch; }
+
+        .guide-photo-card {
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(31,61,58,0.08);
+            border: 1px solid rgba(31,61,58,0.06);
+            background: white;
+        }
+        .guide-photo { width: 100%; height: 340px; object-fit: cover; display: block; }
+        .photo-body { padding: 22px; }
+        .photo-body h2 { margin: 0 0 5px; font-size: 20px; }
+        .photo-body .specialties { color: #c7854c; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #edf5f0; color: #47755f;
+            padding: 7px 12px; border-radius: 20px;
+            font-size: 10px; font-weight: 700;
+        }
+        .status-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #47755f; }
+
+        .info-card {
+            background: white; border-radius: 16px; padding: 30px;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 10px 30px rgba(31,61,58,0.08);
+        }
+        .eyebrow { color: #c7854c; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
+        .info-card h1 { margin: 0 0 10px; font-size: 25px; letter-spacing: -0.6px; }
+
+        .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0 25px; }
+        .meta-item { background: #f7f4ef; border-radius: 10px; padding: 14px 15px; }
+        .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #9aa3a1; margin-bottom: 5px; text-transform: uppercase; }
+        .meta-value { font-size: 13px; font-weight: 700; color: #1f3d3a; }
+
+        .info-section { margin-bottom: 22px; }
+        .info-section h3 { margin: 0 0 9px; font-size: 13px; }
+        .info-section p { margin: 0; color: #5a6764; font-size: 13px; line-height: 1.8; }
+
+        .book-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 14px;
+            background: #d69b5b; color: white;
+            border: none; border-radius: 8px;
+            font-size: 13px; font-weight: 700;
+            font-family: inherit; cursor: pointer;
+            box-shadow: 0 6px 16px rgba(214,155,91,0.25);
+            transition: 0.2s ease;
+        }
+        .book-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(214,155,91,0.32); }
+
+        @media (max-width: 780px) {
+            .navbar { padding: 0 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { display: none; }
+            .nav-links a.active { display: block; }
+            .main { padding: 28px 5% 45px; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .meta-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">Explore <span>Kimberley</span></a>
+        <div class="nav-links">
+            <a href="/tourist/">Dashboard</a>
+            <a href="/explore/">Explore</a>
+            <a href="/guides/" class="active">Guides</a>
+            <a href="{% url 'my_trips' %}">My Trips</a>
+            <a href="/bookings/my-bookings/">Bookings</a>
+            <a href="/accounts/login/" class="logout">Logout</a>
+        </div>
+    </nav>
+    <main class="main">
+        <a href="/guides/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Guides
+        </a>
+
+        <div class="detail-grid">
+            <div class="guide-photo-card">
+                {% if guide.image_url %}
+                    <img src="{{ guide.image_url }}" alt="{{ guide.user.get_full_name }}" class="guide-photo">
+                {% elif guide.profile_image %}
+                    <img src="{{ guide.profile_image.url }}" alt="{{ guide.user.get_full_name }}" class="guide-photo">
+                {% else %}
+                    <img src="{% static 'images/kimberley.jpg' %}" alt="{{ guide.user.get_full_name }}" class="guide-photo">
+                {% endif %}
+                <div class="photo-body">
+                    <h2>{{ guide.user.get_full_name|default:guide.user.username }}</h2>
+                    {% if guide.specialties %}
+                        <div class="specialties">{{ guide.specialties }}</div>
+                    {% endif %}
+                    <div class="status-badge">
+                        <span class="dot"></span>
+                        {% if guide.is_available %}Available{% else %}Unavailable{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="eyebrow">GUIDE PROFILE</div>
+                <h1>About {{ guide.user.first_name|default:guide.user.username }}</h1>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="meta-label">Experience</div>
+                        <div class="meta-value">{{ guide.experience }} year{{ guide.experience|pluralize }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Location</div>
+                        <div class="meta-value">{{ guide.location }}</div>
+                    </div>
+                    {% if guide.hourly_rate %}
+                        <div class="meta-item">
+                            <div class="meta-label">Hourly Rate</div>
+                            <div class="meta-value">R{{ guide.hourly_rate }}</div>
+                        </div>
+                    {% endif %}
+                    {% if guide.phone_number %}
+                        <div class="meta-item">
+                            <div class="meta-label">Contact</div>
+                            <div class="meta-value">{{ guide.phone_number }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="info-section">
+                    <h3>Bio</h3>
+                    <p>{{ guide.bio|default:"This guide hasn't written a bio yet, but they're ready to show you around Kimberley." }}</p>
+                </div>
+
+                {% if guide.is_available %}
+                    <a href="{% url 'book_guide' guide.id %}" class="book-btn">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        Book This Guide
+                    </a>
+                {% else %}
+                    <div style="text-align:center; padding:14px; background:#f7f4ef; border-radius:8px; color:#9aa3a1; font-size:12px; font-weight:600;">
+                        This guide is currently unavailable
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

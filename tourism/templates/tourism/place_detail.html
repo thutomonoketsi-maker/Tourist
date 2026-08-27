@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ place.name }} | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Inter", Arial, sans-serif;
+            background: #f7f4ef;
+            color: #1f3d3a;
+        }
+        a { text-decoration: none; }
+
+        .navbar {
+            height: 70px;
+            background: #1f3d3a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+        .brand {
+            color: white;
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .brand span { color: #d69b5b; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+        .nav-links a {
+            color: #dce5e3;
+            font-size: 12px;
+            font-weight: 500;
+            transition: 0.2s ease;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links .active { color: #d69b5b; font-weight: 700; }
+        .logout { color: #d69b5b !important; }
+
+        .main {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 36px 6% 55px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #687572;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 22px;
+            transition: 0.2s ease;
+        }
+        .back-link:hover { color: #1f3d3a; }
+
+        .detail-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 10px 30px rgba(31,61,58,0.08);
+        }
+        .detail-hero {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .detail-hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100px;
+            background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+        }
+        .detail-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.92);
+            color: #1f3d3a;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+        .detail-save {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 2;
+        }
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .save-btn.saved {
+            background: #c96d4c;
+            color: white;
+        }
+        .save-btn.not-saved {
+            background: rgba(255,255,255,0.92);
+            color: #1f3d3a;
+        }
+
+        .detail-body { padding: 30px 32px 32px; }
+        .detail-body h1 {
+            margin: 0 0 10px;
+            font-size: 27px;
+            letter-spacing: -0.8px;
+        }
+        .detail-location {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #7c8583;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .detail-location i { color: #c7854c; }
+
+        .detail-meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+        .meta-item {
+            background: #f7f4ef;
+            border-radius: 10px;
+            padding: 15px 16px;
+        }
+        .meta-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #9aa3a1;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .meta-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f3d3a;
+        }
+        .meta-value.free { color: #47755f; }
+
+        .detail-section { margin-bottom: 25px; }
+        .detail-section h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            letter-spacing: -0.2px;
+        }
+        .detail-section p {
+            margin: 0;
+            color: #5a6764;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 12px;
+            padding-top: 22px;
+            border-top: 1px solid #edf0ee;
+        }
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-family: inherit;
+        }
+        .action-btn.primary {
+            background: #d69b5b;
+            color: white;
+            box-shadow: 0 6px 16px rgba(214,155,91,0.25);
+        }
+        .action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(214,155,91,0.32);
+        }
+        .action-btn.secondary {
+            background: white;
+            color: #1f3d3a;
+            border: 1px solid #dce2df;
+        }
+        .action-btn.secondary:hover {
+            border-color: #1f3d3a;
+        }
+
+        @media (max-width: 750px) {
+            .navbar { padding: 0 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { display: none; }
+            .nav-links a.active { display: block; }
+            .main { padding: 28px 5% 45px; }
+            .detail-body { padding: 22px; }
+            .detail-meta { grid-template-columns: 1fr; }
+            .detail-hero { height: 220px; }
+            .detail-actions { flex-direction: column; }
+            .action-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">Explore <span>Kimberley</span></a>
+        <div class="nav-links">
+            <a href="/tourist/">Dashboard</a>
+            <a href="/explore/" class="active">Explore</a>
+            <a href="/guides/">Guides</a>
+            <a href="{% url 'my_trips' %}">My Trips</a>
+            <a href="/bookings/my-bookings/">Bookings</a>
+            <a href="/accounts/login/" class="logout">Logout</a>
+        </div>
+    </nav>
+    <main class="main">
+        <a href="{% url 'explore' %}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Explore
+        </a>
+
+        <div class="detail-card">
+            <div class="detail-hero">
+                <span class="detail-badge">{{ place.get_category_display }}</span>
+                <div class="detail-save">
+                    {% if saved %}
+                        <form method="POST" action="{% url 'unsave_place' place.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="save-btn saved">
+                                <i class="fa-solid fa-heart"></i> Saved
+                            </button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{% url 'save_place' place.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="save-btn not-saved">
+                                <i class="fa-regular fa-heart"></i> Save
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% if place.image_url %}
+                    <img src="{{ place.image_url }}" alt="{{ place.name }}">
+                {% elif place.image %}
+                    <img src="{{ place.image.url }}" alt="{{ place.name }}">
+                {% else %}
+                    <img src="{% static 'images/attractions.jpg' %}" alt="{{ place.name }}">
+                {% endif %}
+            </div>
+
+            <div class="detail-body">
+                <h1>{{ place.name }}</h1>
+                <div class="detail-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{ place.location }}
+                </div>
+
+                <div class="detail-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Category</div>
+                        <div class="meta-value">{{ place.get_category_display }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Price</div>
+                        {% if place.price %}
+                            <div class="meta-value">R{{ place.price }}</div>
+                        {% else %}
+                            <div class="meta-value free">Free</div>
+                        {% endif %}
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Contact</div>
+                        <div class="meta-value">{{ place.contact_number|default:"N/A" }}</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>About this place</h3>
+                    <p>{{ place.description }}</p>
+                </div>
+
+                {% if place.website %}
+                    <div class="detail-section">
+                        <h3>Website</h3>
+                        <p><a href="{{ place.website }}" target="_blank" style="color:#c7854c; font-weight:600;">{{ place.website }}</a></p>
+                    </div>
+                {% endif %}
+
+                <div class="detail-actions">
+                    <a href="{% url 'create_trip' %}" class="action-btn primary">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        Add to Trip
+                    </a>
+                    <a href="/guides/" class="action-btn secondary">
+                        <i class="fa-solid fa-compass"></i>
+                        Find a Guide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

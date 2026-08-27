@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Guide | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: "Inter", Arial, sans-serif; background: #f7f4ef; color: #1f3d3a; }
+        a { text-decoration: none; }
+
+        .navbar { height: 70px; background: #1f3d3a; display: flex; align-items: center; justify-content: space-between; padding: 0 6%; }
+        .brand { color: white; font-size: 21px; font-weight: 700; letter-spacing: -0.5px; }
+        .brand span { color: #d69b5b; }
+        .nav-links { display: flex; align-items: center; gap: 27px; }
+        .nav-links a { color: #dce5e3; font-size: 12px; font-weight: 500; transition: 0.2s ease; }
+        .nav-links a:hover { color: white; }
+        .nav-links .active { color: #d69b5b; font-weight: 700; }
+        .logout { color: #d69b5b !important; }
+
+        .main { max-width: 920px; margin: 0 auto; padding: 36px 6% 55px; }
+        .back-link { display: inline-flex; align-items: center; gap: 7px; color: #687572; font-size: 11px; font-weight: 600; margin-bottom: 22px; transition: 0.2s ease; }
+        .back-link:hover { color: #1f3d3a; }
+
+        .eyebrow { color: #c7854c; font-size: 10px; font-weight: 700; letter-spacing: 1.7px; margin-bottom: 8px; }
+        .page-header h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: -0.8px; }
+        .page-header p { margin: 0; color: #727d7a; font-size: 13px; line-height: 1.6; }
+        .page-header { margin-bottom: 27px; }
+
+        .content-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 20px; align-items: stretch; }
+
+        .guide-card {
+            background: white; border-radius: 16px; overflow: hidden;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 8px 25px rgba(31,61,58,0.07);
+        }
+        .guide-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .guide-card .body { padding: 22px; }
+        .guide-card h3 { margin: 0 0 5px; font-size: 18px; }
+        .guide-card .specialties { color: #c7854c; font-size: 12px; font-weight: 600; margin-bottom: 13px; }
+        .guide-card .info-row { display: flex; align-items: center; gap: 8px; color: #7c8583; font-size: 11px; margin-bottom: 8px; }
+        .guide-card .info-row i { color: #c7854c; width: 16px; }
+
+        .form-card {
+            background: white; border-radius: 16px; padding: 30px;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 8px 25px rgba(31,61,58,0.07);
+        }
+        .form-title { margin-bottom: 22px; }
+        .form-title h2 { margin: 0 0 5px; font-size: 19px; }
+        .form-title p { margin: 0; color: #858f8c; font-size: 11px; }
+
+        .error-message {
+            display: flex; align-items: flex-start; gap: 9px;
+            background: #fff3ef; border: 1px solid #f0d1c7; color: #a24f3d;
+            padding: 11px 13px; border-radius: 8px; margin-bottom: 20px;
+            font-size: 11px; line-height: 1.5;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 7px; color: #263e3b; font-size: 11px; font-weight: 700; }
+        .required { color: #c7854c; }
+        .input-wrapper { position: relative; }
+        .input-icon {
+            position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+            color: #9aa5a2; font-size: 12px; pointer-events: none;
+        }
+        .form-input {
+            width: 100%; height: 45px; padding: 0 13px 0 37px;
+            border: 1px solid #dce2df; border-radius: 8px;
+            background: #fcfcfb; color: #263e3b;
+            font-family: inherit; font-size: 12px; outline: none;
+            transition: 0.2s ease;
+        }
+        .form-input::placeholder { color: #a8b0ae; }
+        .form-input:focus { border-color: #d69b5b; background: white; box-shadow: 0 0 0 3px rgba(214,155,91,0.10); }
+        .date-input { padding-left: 13px; }
+        textarea.form-input { height: auto; padding: 12px 13px; resize: vertical; min-height: 80px; }
+
+        .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+        .field-help { display: block; margin-top: 6px; color: #9aa3a1; font-size: 9px; line-height: 1.5; }
+
+        .form-actions {
+            display: flex; align-items: center; justify-content: space-between; gap: 15px;
+            margin-top: 25px; padding-top: 20px; border-top: 1px solid #edf0ee;
+        }
+        .cancel-button { color: #707c79; font-size: 11px; font-weight: 600; padding: 11px 14px; border-radius: 7px; transition: 0.2s ease; }
+        .cancel-button:hover { background: #f5f5f2; color: #1f3d3a; }
+        .submit-button {
+            border: none; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: #d69b5b; color: white;
+            padding: 12px 20px; border-radius: 7px;
+            font-family: inherit; font-size: 11px; font-weight: 700;
+            box-shadow: 0 6px 16px rgba(214,155,91,0.25);
+            transition: 0.2s ease;
+        }
+        .submit-button:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(214,155,91,0.32); }
+
+        @media (max-width: 780px) {
+            .navbar { padding: 0 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { display: none; }
+            .nav-links a.active { display: block; }
+            .main { padding: 28px 5% 45px; }
+            .content-grid { grid-template-columns: 1fr; }
+            .date-grid { grid-template-columns: 1fr; }
+            .form-actions { flex-direction: column-reverse; }
+            .submit-button, .cancel-button { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">Explore <span>Kimberley</span></a>
+        <div class="nav-links">
+            <a href="/tourist/">Dashboard</a>
+            <a href="/explore/">Explore</a>
+            <a href="/guides/" class="active">Guides</a>
+            <a href="{% url 'my_trips' %}">My Trips</a>
+            <a href="/bookings/my-bookings/">Bookings</a>
+            <a href="/accounts/login/" class="logout">Logout</a>
+        </div>
+    </nav>
+    <main class="main">
+        <a href="{% url 'guide_detail' guide.id %}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Guide Profile
+        </a>
+
+        <div class="page-header">
+            <div class="eyebrow">BOOKING REQUEST</div>
+            <h1>Book {{ guide.user.get_full_name|default:guide.user.username }}</h1>
+            <p>Fill in the details below to send a booking request to your guide.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="guide-card">
+                {% if guide.image_url %}
+                    <img src="{{ guide.image_url }}" alt="{{ guide.user.get_full_name }}">
+                {% elif guide.profile_image %}
+                    <img src="{{ guide.profile_image.url }}" alt="{{ guide.user.get_full_name }}">
+                {% else %}
+                    <img src="{% static 'images/kimberley.jpg' %}" alt="{{ guide.user.get_full_name }}">
+                {% endif %}
+                <div class="body">
+                    <h3>{{ guide.user.get_full_name|default:guide.user.username }}</h3>
+                    {% if guide.specialties %}
+                        <div class="specialties">{{ guide.specialties }}</div>
+                    {% endif %}
+                    <div class="info-row">
+                        <i class="fa-solid fa-compass"></i>
+                        {{ guide.experience }} year{{ guide.experience|pluralize }} experience
+                    </div>
+                    <div class="info-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        {{ guide.location }}
+                    </div>
+                    {% if guide.hourly_rate %}
+                        <div class="info-row">
+                            <i class="fa-solid fa-tag"></i>
+                            R{{ guide.hourly_rate }} per hour
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="form-title">
+                    <h2>Booking details</h2>
+                    <p>Choose when you'd like to go and tell the guide what you're looking for.</p>
+                </div>
+
+                {% if error %}
+                    <div class="error-message">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>{{ error }}</span>
+                    </div>
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="date-grid">
+                        <div class="form-group">
+                            <label class="form-label">Date <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="date" name="date" class="form-input date-input" required>
+                            </div>
+                            <span class="field-help">When would you like to go?</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Time <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="time" name="time" class="form-input date-input" required>
+                            </div>
+                            <span class="field-help">What time suits you?</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Number of people <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-users input-icon"></i>
+                            <input type="number" name="number_of_people" class="form-input" value="1" min="1" max="20" required>
+                        </div>
+                        <span class="field-help">How many people will be going?</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Message to guide</label>
+                        <div class="input-wrapper">
+                            <textarea name="message" class="form-input" placeholder="Tell the guide what you'd like to see or do..." rows="4"></textarea>
+                        </div>
+                        <span class="field-help">Optional - share any specific interests or requests.</span>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="{% url 'guide_detail' guide.id %}" class="cancel-button">Cancel</a>
+                        <button type="submit" class="submit-button">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Send Booking Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

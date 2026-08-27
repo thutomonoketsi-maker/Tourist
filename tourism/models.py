@@ -28,6 +28,11 @@ class TourismPlace(models.Model):
         null=True
     )
 
+    image_url = models.URLField(
+        blank=True,
+        default=''
+    )
+
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,

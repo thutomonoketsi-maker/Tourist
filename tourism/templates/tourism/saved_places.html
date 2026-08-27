@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Places | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Inter", Arial, sans-serif;
+            background: #f7f4ef;
+            color: #1f3d3a;
+        }
+        a { text-decoration: none; }
+
+        .navbar {
+            height: 70px;
+            background: #1f3d3a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+        .brand { color: white; font-size: 21px; font-weight: 700; letter-spacing: -0.5px; }
+        .brand span { color: #d69b5b; }
+        .nav-links { display: flex; align-items: center; gap: 27px; }
+        .nav-links a { color: #dce5e3; font-size: 12px; font-weight: 500; transition: 0.2s ease; }
+        .nav-links a:hover { color: white; }
+        .nav-links .active { color: #d69b5b; font-weight: 700; }
+        .logout { color: #d69b5b !important; }
+
+        .main { max-width: 1120px; margin: 0 auto; padding: 42px 6% 55px; }
+        .eyebrow { color: #c7854c; font-size: 10px; font-weight: 700; letter-spacing: 1.7px; margin-bottom: 8px; }
+        .page-header h1 { margin: 0 0 8px; font-size: 31px; line-height: 1.15; letter-spacing: -1px; }
+        .page-header p { margin: 0; color: #727d7a; font-size: 13px; line-height: 1.6; }
+        .page-header { margin-bottom: 30px; }
+
+        .saved-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .saved-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            text-decoration: none;
+            color: #1f3d3a;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 7px 22px rgba(31,61,58,0.07);
+            transition: 0.22s ease;
+        }
+        .saved-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(31,61,58,0.12);
+        }
+        .saved-image { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .saved-body { padding: 17px 20px 20px; }
+        .saved-category { font-size: 9px; font-weight: 700; letter-spacing: 1.2px; color: #c7854c; margin-bottom: 7px; text-transform: uppercase; }
+        .saved-card h3 { margin: 0 0 7px; font-size: 16px; }
+        .saved-location { color: #9aa3a1; font-size: 10px; display: flex; align-items: center; gap: 5px; margin-bottom: 12px; }
+        .saved-location i { color: #c7854c; }
+        .saved-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #edf0ee;
+        }
+        .saved-footer a { color: #1f3d3a; font-size: 11px; font-weight: 700; }
+        .unsave-form { display: inline; }
+        .unsave-btn {
+            background: none;
+            border: none;
+            color: #c96d4c;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 30px;
+            text-align: center;
+            border: 1px solid rgba(31,61,58,0.06);
+            box-shadow: 0 7px 24px rgba(31,61,58,0.06);
+        }
+        .empty-icon {
+            width: 66px; height: 66px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #f7eee4;
+            display: flex; align-items: center; justify-content: center;
+            color: #c7854c; font-size: 25px;
+        }
+        .empty-state h2 { margin: 0 0 9px; font-size: 21px; }
+        .empty-state p { max-width: 440px; margin: 0 auto 23px; color: #7b8582; font-size: 12px; line-height: 1.7; }
+        .empty-button {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #1f3d3a; color: white;
+            padding: 12px 19px; border-radius: 7px;
+            font-size: 11px; font-weight: 700;
+            transition: 0.2s ease;
+        }
+        .empty-button:hover { background: #284c48; transform: translateY(-2px); }
+
+        .back-link { display: inline-flex; align-items: center; gap: 7px; color: #687572; font-size: 11px; font-weight: 600; margin-top: 25px; transition: 0.2s ease; }
+        .back-link:hover { color: #1f3d3a; }
+
+        @media (max-width: 900px) { .saved-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 750px) {
+            .navbar { padding: 0 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { display: none; }
+            .nav-links a.active { display: block; }
+            .main { padding: 32px 5% 45px; }
+            .saved-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">Explore <span>Kimberley</span></a>
+        <div class="nav-links">
+            <a href="/tourist/">Dashboard</a>
+            <a href="/explore/" class="active">Explore</a>
+            <a href="/guides/">Guides</a>
+            <a href="{% url 'my_trips' %}">My Trips</a>
+            <a href="/bookings/my-bookings/">Bookings</a>
+            <a href="/accounts/login/" class="logout">Logout</a>
+        </div>
+    </nav>
+    <main class="main">
+        <div class="page-header">
+            <div class="eyebrow">YOUR COLLECTION</div>
+            <h1>Saved Places</h1>
+            <p>Places and experiences you've saved to revisit later.</p>
+        </div>
+
+        {% if saved_places %}
+            <div class="saved-grid">
+                {% for item in saved_places %}
+                    <div class="saved-card">
+                        <a href="{% url 'place_detail' item.place.id %}">
+                            {% if item.place.image_url %}
+                                <img src="{{ item.place.image_url }}" alt="{{ item.place.name }}" class="saved-image">
+                            {% elif item.place.image %}
+                                <img src="{{ item.place.image.url }}" alt="{{ item.place.name }}" class="saved-image">
+                            {% else %}
+                                <img src="{% static 'images/attractions.jpg' %}" alt="{{ item.place.name }}" class="saved-image">
+                            {% endif %}
+                        </a>
+                        <div class="saved-body">
+                            <span class="saved-category">{{ item.place.get_category_display }}</span>
+                            <h3>{{ item.place.name }}</h3>
+                            <div class="saved-location">
+                                <i class="fa-solid fa-location-dot"></i>
+                                {{ item.place.location|truncatechars:25 }}
+                            </div>
+                            <div class="saved-footer">
+                                <a href="{% url 'place_detail' item.place.id %}">View details →</a>
+                                <form method="POST" action="{% url 'unsave_place' item.place.id %}" class="unsave-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="unsave-btn">
+                                        <i class="fa-solid fa-heart-crack"></i> Remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
+                <h2>No saved places yet</h2>
+                <p>When you find places you're interested in, save them here so you can easily find them again later.</p>
+                <a href="/explore/" class="empty-button">
+                    <i class="fa-solid fa-compass"></i>
+                    Explore Places
+                </a>
+            </div>
+        {% endif %}
+
+        <a href="/tourist/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+    </main>
+</body>
+</html>
