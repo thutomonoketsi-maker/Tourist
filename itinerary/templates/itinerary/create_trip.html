@@ -1,0 +1,1308 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Trip | Explore Kimberley</title>
+
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- Font Awesome Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: "Inter", Arial, sans-serif;
+
+            background: #f7f4ef;
+
+            color: #1f3d3a;
+
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 70px;
+
+            background: #1f3d3a;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+        }
+
+
+        .brand {
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+        .brand span {
+
+            color: #d69b5b;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 27px;
+
+        }
+
+
+        .nav-links a {
+
+            color: #dce5e3;
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .nav-links a:hover {
+
+            color: white;
+
+        }
+
+
+        .nav-links .active {
+
+            color: #d69b5b;
+
+            font-weight: 700;
+
+        }
+
+
+        .logout {
+
+            color: #d69b5b !important;
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            padding: 42px 6% 60px;
+
+        }
+
+
+        /* =========================
+           BACK LINK
+        ========================= */
+
+        .back-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #687572;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            margin-bottom: 25px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .back-link:hover {
+
+            color: #1f3d3a;
+
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+
+            margin-bottom: 27px;
+
+        }
+
+
+        .eyebrow {
+
+            color: #c7854c;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.7px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-header h1 {
+
+            margin: 0 0 8px;
+
+            font-size: 31px;
+
+            line-height: 1.15;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #727d7a;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            max-width: 600px;
+
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns: 0.85fr 1.4fr;
+
+            gap: 20px;
+
+            align-items: stretch;
+
+        }
+
+
+        /* =========================
+           LEFT INFORMATION CARD
+        ========================= */
+
+        .info-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1f3d3a,
+                    #294e49
+                );
+
+            border-radius: 15px;
+
+            padding: 29px;
+
+            color: white;
+
+            min-height: 440px;
+
+        }
+
+
+        .info-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 210px;
+
+            height: 210px;
+
+            border-radius: 50%;
+
+            background: rgba(214, 155, 91, 0.10);
+
+            right: -75px;
+
+            top: -80px;
+
+        }
+
+
+        .info-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+
+            height: 130px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            left: -55px;
+
+            bottom: -45px;
+
+        }
+
+
+        .info-icon {
+
+            width: 49px;
+
+            height: 49px;
+
+            border-radius: 12px;
+
+            background: #d69b5b;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            margin-bottom: 25px;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .info-card h2 {
+
+            margin: 0 0 12px;
+
+            font-size: 22px;
+
+            line-height: 1.25;
+
+            letter-spacing: -0.5px;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .info-card > p {
+
+            margin: 0;
+
+            color: #d4dfdc;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .steps {
+
+            margin-top: 31px;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .step {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+            margin-bottom: 19px;
+
+        }
+
+
+        .step-number {
+
+            width: 25px;
+
+            height: 25px;
+
+            min-width: 25px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.14);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #d69b5b;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        .step strong {
+
+            display: block;
+
+            margin-bottom: 3px;
+
+            font-size: 11px;
+
+        }
+
+
+        .step span {
+
+            color: #aebfbb;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 31px;
+
+            border: 1px solid rgba(31,61,58,0.06);
+
+            box-shadow:
+                0 8px 25px rgba(31,61,58,0.07);
+
+        }
+
+
+        .form-title {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .form-title h2 {
+
+            margin: 0 0 6px;
+
+            font-size: 20px;
+
+            letter-spacing: -0.4px;
+
+        }
+
+
+        .form-title p {
+
+            margin: 0;
+
+            color: #858f8c;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           ERROR MESSAGE
+        ========================= */
+
+        .error-message {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 9px;
+
+            background: #fff3ef;
+
+            border: 1px solid #f0d1c7;
+
+            color: #a24f3d;
+
+            padding: 11px 13px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .error-message i {
+
+            margin-top: 1px;
+
+        }
+
+
+        /* =========================
+           FORM GROUP
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #263e3b;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+        }
+
+
+        .required {
+
+            color: #c7854c;
+
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 13px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9aa5a2;
+
+            font-size: 12px;
+
+            pointer-events: none;
+
+        }
+
+
+        .form-input {
+
+            width: 100%;
+
+            height: 45px;
+
+            padding: 0 13px 0 37px;
+
+            border: 1px solid #dce2df;
+
+            border-radius: 8px;
+
+            background: #fcfcfb;
+
+            color: #263e3b;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .form-input::placeholder {
+
+            color: #a8b0ae;
+
+        }
+
+
+        .form-input:focus {
+
+            border-color: #d69b5b;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(214,155,91,0.10);
+
+        }
+
+
+        /* =========================
+           DATE ROW
+        ========================= */
+
+        .date-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 13px;
+
+        }
+
+
+        .date-input {
+
+            padding-left: 13px;
+
+        }
+
+
+        .field-help {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #9aa3a1;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           FORM ACTIONS
+        ========================= */
+
+        .form-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 27px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #edf0ee;
+
+        }
+
+
+        .cancel-button {
+
+            color: #707c79;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            padding: 11px 14px;
+
+            border-radius: 7px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .cancel-button:hover {
+
+            background: #f5f5f2;
+
+            color: #1f3d3a;
+
+        }
+
+
+        .submit-button {
+
+            border: none;
+
+            cursor: pointer;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            background: #d69b5b;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 6px 16px rgba(214,155,91,0.25);
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .submit-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 9px 20px rgba(214,155,91,0.32);
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 780px) {
+
+            .navbar {
+
+                padding: 0 5%;
+
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+
+            }
+
+
+            .nav-links a {
+
+                display: none;
+
+            }
+
+
+            .nav-links .active {
+
+                display: block;
+
+            }
+
+
+            .main {
+
+                padding: 30px 5% 45px;
+
+            }
+
+
+            .content-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .info-card {
+
+                min-height: auto;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .date-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-card {
+
+                padding: 23px;
+
+            }
+
+
+            .info-card {
+
+                padding: 24px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+
+        <a
+            href="/"
+            class="brand"
+        >
+
+            Explore
+            <span>
+                Kimberley
+            </span>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/tourist/">
+                Dashboard
+            </a>
+
+            <a
+                href="{% url 'my_trips' %}"
+                class="active"
+            >
+                My Trips
+            </a>
+
+            <a href="#">
+                Profile
+            </a>
+
+            <a
+                href="/accounts/login/"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+
+        <a
+            href="{% url 'my_trips' %}"
+            class="back-link"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to My Trips
+
+        </a>
+
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="eyebrow">
+                PLAN YOUR EXPERIENCE
+            </div>
+
+
+            <h1>
+                Create a New Trip
+            </h1>
+
+
+            <p>
+                Start organising your Kimberley experience.
+                You can add places, activities and other experiences
+                to your trip as you plan.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             CONTENT
+        ========================= -->
+
+        <div class="content-grid">
+
+
+            <!-- =========================
+                 INFORMATION
+            ========================= -->
+
+            <div class="info-card">
+
+
+                <div class="info-icon">
+
+                    <i class="fa-solid fa-map-location-dot"></i>
+
+                </div>
+
+
+                <h2>
+                    Build your Kimberley journey
+                </h2>
+
+
+                <p>
+                    Create a trip first, then use your itinerary
+                    to organise the places and experiences you want
+                    to enjoy during your visit.
+                </p>
+
+
+                <div class="steps">
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            1
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Create your trip
+                            </strong>
+
+                            <span>
+                                Give your trip a name and choose your dates.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            2
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Explore Kimberley
+                            </strong>
+
+                            <span>
+                                Find attractions, activities, food and other
+                                tourism experiences.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            3
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Build your itinerary
+                            </strong>
+
+                            <span>
+                                Add the experiences you want to visit
+                                and organise them by date.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 FORM
+            ========================= -->
+
+            <div class="form-card">
+
+
+                <div class="form-title">
+
+                    <h2>
+                        Trip details
+                    </h2>
+
+                    <p>
+                        Enter the basic information for your new trip.
+                    </p>
+
+                </div>
+
+
+
+                {% if error %}
+
+                    <div class="error-message">
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <span>
+                            {{ error }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+
+                    <!-- TRIP NAME -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="trip-name"
+                            class="form-label"
+                        >
+
+                            Trip name
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <i
+                                class="fa-solid fa-suitcase input-icon"
+                            ></i>
+
+
+                            <input
+                                id="trip-name"
+                                type="text"
+                                name="name"
+                                class="form-input"
+                                placeholder="e.g. Kimberley Weekend"
+                                value="{{ request.POST.name|default:'' }}"
+                                maxlength="150"
+                                required
+                            >
+
+                        </div>
+
+
+                        <span class="field-help">
+                            Choose a name that will help you recognise
+                            this trip later.
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- DATES -->
+
+                    <div class="date-grid">
+
+
+                        <!-- START DATE -->
+
+                        <div class="form-group">
+
+                            <label
+                                for="start-date"
+                                class="form-label"
+                            >
+
+                                Start date
+
+                            </label>
+
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    id="start-date"
+                                    type="date"
+                                    name="start_date"
+                                    class="form-input date-input"
+                                    value="{{ request.POST.start_date|default:'' }}"
+                                >
+
+                            </div>
+
+
+                            <span class="field-help">
+                                When does your trip begin?
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- END DATE -->
+
+                        <div class="form-group">
+
+                            <label
+                                for="end-date"
+                                class="form-label"
+                            >
+
+                                End date
+
+                            </label>
+
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    id="end-date"
+                                    type="date"
+                                    name="end_date"
+                                    class="form-input date-input"
+                                    value="{{ request.POST.end_date|default:'' }}"
+                                >
+
+                            </div>
+
+
+                            <span class="field-help">
+                                When does your trip finish?
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="form-actions">
+
+
+                        <a
+                            href="{% url 'my_trips' %}"
+                            class="cancel-button"
+                        >
+
+                            Cancel
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                        >
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Create Trip
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+</html>
+

@@ -1,0 +1,559 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>My Trips | Explore Kimberley</title>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <!-- Font Awesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: "Inter", Arial, sans-serif;
+            background: #f7f4ef;
+            color: #1f3d3a;
+        }
+        a {
+            text-decoration: none;
+        }
+        /* =========================
+           NAVBAR
+        ========================= */
+        .navbar {
+            height: 70px;
+            background: #1f3d3a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+        .brand {
+            color: white;
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .brand span {
+            color: #d69b5b;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+        .nav-links a {
+            color: #dce5e3;
+            font-size: 12px;
+            font-weight: 500;
+            transition: 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        .nav-links .active {
+            color: #d69b5b;
+            font-weight: 700;
+        }
+        .logout {
+            color: #d69b5b !important;
+        }
+        /* =========================
+           MAIN
+        ========================= */
+        .main {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 42px 6% 55px;
+        }
+        /* =========================
+           PAGE HEADER
+        ========================= */
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .eyebrow {
+            color: #c7854c;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+            margin-bottom: 8px;
+        }
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 31px;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+        .page-header p {
+            margin: 0;
+            color: #727d7a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        /* =========================
+           CREATE BUTTON
+        ========================= */
+        .create-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: #d69b5b;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 7px 18px rgba(214, 155, 91, 0.25);
+            transition: 0.2s ease;
+        }
+        .create-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(214, 155, 91, 0.32);
+        }
+        /* =========================
+           TRIP AREA
+        ========================= */
+        .trip-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        /* =========================
+           TRIP CARD
+        ========================= */
+        .trip-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(31, 61, 58, 0.06);
+            box-shadow:
+                0 7px 22px rgba(31, 61, 58, 0.07);
+
+            transition: 0.22s ease;
+        }
+        .trip-card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 28px rgba(31, 61, 58, 0.11);
+        }
+        .trip-cover {
+            height: 105px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #1f3d3a,
+                    #315c56
+                );
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 22px;
+            overflow: hidden;
+        }
+        .trip-cover::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: rgba(214, 155, 91, 0.12);
+            right: -55px;
+            top: -70px;
+        }
+        .trip-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 11px;
+            background: #d69b5b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 17px;
+            position: relative;
+            z-index: 2;
+        }
+        .trip-cover-label {
+            margin-left: 13px;
+            position: relative;
+            z-index: 2;
+        }
+        .trip-cover-label span {
+            display: block;
+            color: #d7e1df;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.3px;
+            margin-bottom: 4px;
+        }
+        .trip-cover-label strong {
+            color: white;
+            font-size: 13px;
+        }
+        .trip-content {
+            padding: 21px;
+        }
+        .trip-name {
+            margin: 0 0 13px;
+            font-size: 18px;
+            letter-spacing: -0.4px;
+        }
+        .trip-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 19px;
+        }
+        .trip-detail {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f7f4ef;
+            color: #65716e;
+            padding: 7px 9px;
+            border-radius: 6px;
+            font-size: 10px;
+        }
+        .trip-detail i {
+            color: #c7854c;
+        }
+        .trip-footer {
+            padding-top: 15px;
+            border-top: 1px solid #edf0ee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .trip-created {
+            color: #9aa3a1;
+            font-size: 10px;
+        }
+        .view-trip {
+            color: #1f3d3a;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .view-trip i {
+            margin-left: 5px;
+            color: #d69b5b;
+        }
+        /* =========================
+           EMPTY STATE
+        ========================= */
+        .empty-state {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 30px;
+            text-align: center;
+            border: 1px solid rgba(31, 61, 58, 0.06);
+            box-shadow:
+                0 7px 24px rgba(31, 61, 58, 0.06);
+        }
+        .empty-icon {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: #f7eee4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c7854c;
+            font-size: 25px;
+        }
+        .empty-state h2 {
+            margin: 0 0 9px;
+            font-size: 21px;
+            letter-spacing: -0.5px;
+        }
+        .empty-state p {
+            max-width: 470px;
+            margin: 0 auto 23px;
+            color: #7b8582;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .empty-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1f3d3a;
+            color: white;
+            padding: 12px 19px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+        .empty-button:hover {
+            background: #284c48;
+            transform: translateY(-2px);
+        }
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+        .back-area {
+
+            margin-top: 25px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #687572;
+            font-size: 11px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+        .back-link:hover {
+
+            color: #1f3d3a;
+        }
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        @media (max-width: 750px) {
+
+            .navbar {
+
+                padding: 0 5%;
+
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+
+            }
+
+
+            .nav-links a {
+
+                display: none;
+
+            }
+
+
+            .nav-links a.active {
+
+                display: block;
+
+            }
+            .main {
+
+                padding: 32px 5% 45px;
+            }
+            .page-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+            .create-button {
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+            .trip-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+    <nav class="navbar">
+        <a
+            href="/"
+            class="brand"
+        >
+            Explore
+            <span>
+                Kimberley
+            </span>
+        </a>
+        <div class="nav-links">
+
+            <a href="/tourist/">
+                Dashboard
+            </a>
+            <a
+                href="{% url 'my_trips' %}"
+                class="active"
+            >
+                My Trips
+            </a>
+            <a href="#">
+                Profile
+            </a>
+            <a
+                href="/accounts/login/"
+                class="logout"
+            >
+                Logout
+            </a>
+        </div>
+    </nav>
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+    <main class="main">
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <div>
+
+                <div class="eyebrow">
+                    YOUR EXPERIENCE
+                </div>
+
+
+                <h1>
+                    My Trips
+                </h1>
+
+
+                <p>
+                    Plan, organise and manage your Kimberley
+                    experiences in one place.
+                </p>
+            </div>
+            <a
+                href="{% url 'create_trip' %}"
+                class="create-button"
+            >
+                <i class="fa-solid fa-plus"></i>
+                Create New Trip
+            </a>
+        </div>
+        <!-- =========================
+             TRIPS
+        ========================= -->
+        {% if trips %}
+            <div class="trip-grid">
+                {% for trip in trips %}
+                    <div class="trip-card">
+                        <div class="trip-cover">
+                            <div class="trip-icon">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </div>
+                            <div class="trip-cover-label">
+                                <span>
+                                    KIMBERLEY EXPERIENCE
+                                </span>
+                                <strong>
+                                    Trip Plan
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="trip-content">
+                            <h2 class="trip-name">
+                                {{ trip.name }}
+                            </h2>
+                            <div class="trip-details">
+                                {% if trip.start_date %}
+                                    <div class="trip-detail">
+                                        <i class="fa-regular fa-calendar"></i>
+                                        {{ trip.start_date|date:"d M Y" }}
+                                    </div>
+                                {% endif %}
+                                {% if trip.end_date %}
+                                    <div class="trip-detail">
+                                        <i class="fa-solid fa-flag-checkered"></i>
+                                        {{ trip.end_date|date:"d M Y" }}
+                                    </div>
+                                {% endif %}
+                                <div class="trip-detail">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    Kimberley
+                                </div>
+                            </div>
+                            <div class="trip-footer">
+                                <span class="trip-created">
+                                    Created
+                                    {{ trip.created_at|date:"d M Y" }}
+                                </span>
+                                <a
+                                    href="#"
+                                    class="view-trip"
+                                >
+                                    Open Trip
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- =========================
+                 EMPTY STATE
+            ========================= -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <h2>
+                    Your Kimberley journey starts here
+                </h2>
+                <p>
+                    You haven't created a trip yet.
+                    Create one to organise your dates and
+                    eventually add attractions, activities,
+                    restaurants and other experiences to your itinerary.
+                </p>
+                <a
+                    href="{% url 'create_trip' %}"
+                    class="empty-button"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Create My First Trip
+                </a>
+            </div>
+        {% endif %}
+        <!-- BACK -->
+        <div class="back-area">
+            <a
+                href="/tourist/"
+                class="back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </main>
+</body>
+</html>
+

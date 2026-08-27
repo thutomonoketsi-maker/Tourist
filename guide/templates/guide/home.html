@@ -1,0 +1,404 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Dashboard | Explore Kimberley</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+<body style="
+    margin:0;
+    font-family:'Inter',Arial,sans-serif;
+    background:#f7f4ef;
+    color:#1f3d3a;
+">
+<!-- NAVBAR -->
+<nav style="
+    height:68px;
+    background:#1f3d3a;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    box-sizing:border-box;
+">
+    <a href="/" style="
+        color:white;
+        text-decoration:none;
+        font-size:21px;
+        font-weight:700;
+    ">
+        Explore
+        <span style="color:#d69b5b;">
+            Kimberley
+        </span>
+    </a>
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:25px;
+    ">
+        <a href="#" style="
+            color:#d9e1df;
+            text-decoration:none;
+            font-size:12px;
+        ">
+            Dashboard
+        </a>
+        <a href="#" style="
+            color:#d9e1df;
+            text-decoration:none;
+            font-size:12px;
+        ">
+            Bookings
+        </a>
+        <a href="#" style="
+            color:#d9e1df;
+            text-decoration:none;
+            font-size:12px;
+        ">
+            My Profile
+        </a>
+        <a href="/" style="
+            color:#e0ad78;
+            text-decoration:none;
+            font-size:12px;
+            font-weight:600;
+        ">
+            Logout
+        </a>
+    </div>
+</nav>
+<!-- MAIN -->
+<main style="
+    max-width:1120px;
+    margin:auto;
+    padding:42px 6%;
+    box-sizing:border-box;
+">
+    <!-- WELCOME -->
+    <section style="
+        background:#1f3d3a;
+        border-radius:16px;
+        padding:30px 34px;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:25px;
+        box-sizing:border-box;
+        box-shadow:0 10px 30px rgba(31,61,58,0.14);
+    ">
+        <div>
+            <div style="
+                color:#d69b5b;
+                font-size:10px;
+                font-weight:700;
+                letter-spacing:1.6px;
+                margin-bottom:8px;
+            ">
+                GUIDE PORTAL
+            </div>
+            <h1 style="
+                margin:0 0 8px;
+                font-size:28px;
+                letter-spacing:-0.8px;
+            ">
+                Welcome, {{ request.user.first_name }}
+            </h1>
+            <p style="
+                margin:0;
+                color:#d5dfdd;
+                font-size:12px;
+                line-height:1.6;
+            ">
+                Manage your guide profile, availability and
+                requests from one place.
+            </p>
+        </div>
+        <div style="
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background:#d69b5b;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:20px;
+            flex-shrink:0;
+            box-shadow:0 0 22px rgba(214,155,91,0.35);
+        ">
+            <i class="fa-solid fa-compass"></i>
+        </div>
+    </section>
+    <!-- STATUS -->
+    <section style="
+        margin-top:25px;
+        background:white;
+        border-radius:14px;
+        padding:20px 23px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        box-shadow:0 5px 18px rgba(31,61,58,0.06);
+    ">
+        <div>
+            <div style="
+                color:#7c8583;
+                font-size:10px;
+                margin-bottom:6px;
+                font-weight:600;
+                letter-spacing:1px;
+            ">
+                GUIDE STATUS
+            </div>
+            <strong style="
+                font-size:15px;
+            ">
+                Available for bookings
+            </strong>
+        </div>
+        <div style="
+            display:flex;
+            align-items:center;
+            gap:8px;
+            color:#47755f;
+            font-size:11px;
+            font-weight:600;
+        ">
+            <span style="
+                width:9px;
+                height:9px;
+                border-radius:50%;
+                background:#47755f;
+                display:block;
+                box-shadow:0 0 10px rgba(71,117,95,0.45);
+            "></span>
+            Available
+        </div>
+    </section>
+    <!-- GUIDE TOOLS -->
+    <section style="
+        margin-top:25px;
+    ">
+        <div style="
+            margin-bottom:14px;
+        ">
+            <div style="
+                color:#c7854c;
+                font-size:10px;
+                font-weight:700;
+                letter-spacing:1.5px;
+                margin-bottom:5px;
+            ">
+                GUIDE TOOLS
+            </div>
+            <h2 style="
+                margin:0;
+                font-size:21px;
+                letter-spacing:-0.4px;
+            ">
+                Manage your guiding service
+            </h2>
+        </div>
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:15px;
+        ">
+            <!-- BOOKINGS -->
+            <a href="#" style="
+                background:white;
+                border-radius:12px;
+                padding:21px;
+                text-decoration:none;
+                color:#1f3d3a;
+                box-shadow:0 5px 18px rgba(31,61,58,0.07);
+            ">
+                <div style="
+                    width:38px;
+                    height:38px;
+                    border-radius:9px;
+                    background:#f7eee4;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#c7854c;
+                    margin-bottom:14px;
+                ">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h3 style="
+                    margin:0 0 5px;
+                    font-size:15px;
+                ">
+                    Booking Requests
+                </h3>
+                <p style="
+                    margin:0;
+                    color:#7c8583;
+                    font-size:11px;
+                    line-height:1.5;
+                ">
+                    Review and respond to requests
+                    from tourists.
+                </p>
+            </a>
+            <!-- PROFILE -->
+            <a href="#" style="
+                background:white;
+                border-radius:12px;
+                padding:21px;
+                text-decoration:none;
+                color:#1f3d3a;
+                box-shadow:0 5px 18px rgba(31,61,58,0.07);
+            ">
+                <div style="
+                    width:38px;
+                    height:38px;
+                    border-radius:9px;
+                    background:#edf3f0;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#1f3d3a;
+                    margin-bottom:14px;
+                ">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+                <h3 style="
+                    margin:0 0 5px;
+                    font-size:15px;
+                ">
+                    Guide Profile
+                </h3>
+                <p style="
+                    margin:0;
+                    color:#7c8583;
+                    font-size:11px;
+                    line-height:1.5;
+                ">
+                    Manage your bio, experience and
+                    contact information.
+                </p>
+            </a>
+            <!-- AVAILABILITY -->
+            <a href="#" style="
+                background:white;
+                border-radius:12px;
+                padding:21px;
+                text-decoration:none;
+                color:#1f3d3a;
+                box-shadow:0 5px 18px rgba(31,61,58,0.07);
+            ">
+                <div style="
+                    width:38px;
+                    height:38px;
+                    border-radius:9px;
+                    background:#edf3f0;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#1f3d3a;
+                    margin-bottom:14px;
+                ">
+
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <h3 style="
+                    margin:0 0 5px;
+                    font-size:15px;
+                ">
+                    Availability
+                </h3>
+
+
+                <p style="
+                    margin:0;
+                    color:#7c8583;
+                    font-size:11px;
+                    line-height:1.5;
+                ">
+                    Control when tourists can request
+                    your guiding services.
+                </p>
+            </a>
+        </div>
+    </section>
+    <!-- UPCOMING -->
+    <section style="
+        margin-top:25px;
+        background:white;
+        border-radius:14px;
+        padding:23px 25px;
+        box-shadow:0 5px 18px rgba(31,61,58,0.06);
+    ">
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        ">
+            <div>
+                <div style="
+                    color:#c7854c;
+                    font-size:10px;
+                    font-weight:700;
+                    letter-spacing:1.4px;
+                    margin-bottom:5px;
+                ">
+                    UPCOMING
+                </div>
+                <h3 style="
+                    margin:0;
+                    font-size:16px;
+                ">
+                    Your upcoming bookings
+                </h3>
+            </div>
+            <a href="#" style="
+                color:#1f3d3a;
+                text-decoration:none;
+                font-size:11px;
+                font-weight:600;
+            ">
+                View all →
+            </a>
+        </div>
+        <div style="
+            margin-top:18px;
+            padding:18px;
+            border:1px dashed #d9dfdc;
+            border-radius:9px;
+            text-align:center;
+        ">
+            <i
+                class="fa-regular fa-calendar"
+                style="
+                    font-size:20px;
+                    color:#b4bfbc;
+                    margin-bottom:9px;
+                "
+            ></i>
+            <p style="
+                margin:0;
+                color:#7c8583;
+                font-size:11px;
+            ">
+                Your confirmed bookings will appear here.
+            </p>
+        </div>
+    </section>
+</main>
+</body>
+</html>
